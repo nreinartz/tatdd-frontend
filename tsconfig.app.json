@@ -1,0 +1,26 @@
+{
+    "extends": "@vue/tsconfig/tsconfig.dom.json",
+    "include": [
+        "env.d.ts",
+        "src/**/*",
+        "src/**/*.vue",
+        "src/**/*.ts"
+    ],
+    "exclude": [
+        "src/**/__tests__/*"
+    ],
+    "compilerOptions": {
+        "ignoreDeprecations": "5.0",
+        "composite": true,
+        "baseUrl": ".",
+        "lib": [
+            "ES2023",
+            "DOM"
+        ],
+        "paths": {
+            "@/*": [
+                "./src/*"
+            ]
+        }
+    }
+}
