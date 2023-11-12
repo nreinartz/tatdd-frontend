@@ -1,8 +1,10 @@
 import { QueryType, type QueryEntry, type QuerySummary } from "@/types/api-models";
 
+const api_base = `${window.location.protocol}//${window.location.href}/api`;
+
 export async function createSession(type: QueryType, topics: string[], startYear: number,
     endYear: number, distance: number, minCitations: number): Promise<QueryEntry> {
-    const response = await fetch('http://localhost:8000/api/queries', {
+    const response = await fetch(`${api_base}/queries`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -21,11 +23,11 @@ export async function createSession(type: QueryType, topics: string[], startYear
 }
 
 export async function getSession(uuid: string): Promise<QueryEntry> {
-    const response = await fetch("http://127.0.0.1:8000/api/queries/" + uuid);
+    const response = await fetch(`${api_base}/queries/${uuid}`);
     return response.json();
 }
 
 export async function getSessionSummary(uuid: string): Promise<QuerySummary> {
-    const response = await fetch(`http://127.0.0.1:8000/api/queries/${uuid}/summary`);
+    const response = await fetch(`${api_base}/queries/${uuid}/summary`);
     return response.json();
 }
