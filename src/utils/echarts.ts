@@ -17,6 +17,7 @@ import {
 } from 'echarts/components';
 
 import { SVGRenderer } from 'echarts/renderers';
+
 import { Scatter3DChart } from 'echarts-gl/charts';
 import { Grid3DComponent } from 'echarts-gl/components';
 
