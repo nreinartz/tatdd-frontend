@@ -5,7 +5,7 @@ let api_base: string;
 if (import.meta.env.MODE === 'development') {
     api_base = "http://localhost:8000/api";
 } else {
-    api_base = `${window.location.protocol}//${window.location.href}/api`;
+    api_base = `${window.location.origin}/api`;
 }
 
 export async function createSession(type: QueryType, topics: string[], startYear: number,
