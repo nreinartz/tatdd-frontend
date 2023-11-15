@@ -2,6 +2,16 @@
     <CollapsibleSection title="Topic Discovery" icon="bi-binoculars">
         <div class="row row-gap-3 mt-4">
             <div class="col-12">
+                <div class="card h-100 shadow-sm" style="min-height: 70vh">
+                    <div class="card-body">
+                        <template v-if="resultsStore.topicDiscoveryResultsAvailable">
+                            <TopicClusters />
+                        </template>
+                        <Loader v-else :message="loadingMessage" :is-intermediate="loadingMessage === undefined" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-12">
                 <div class="card h-100 shadow-sm" style="min-height: 40vh">
                     <div class="card-body">
                         <template v-if="resultsStore.topicDiscoveryResultsAvailable">
@@ -14,14 +24,14 @@
         </div>
         <div v-if="resultsStore.topicDiscoveryResultsAvailable">
             <!-- Tab Headers -->
-            <ul class="nav nav-tabs">
+            <!-- <ul class="nav nav-tabs">
                 <li class="nav-item" v-for="(topic, index) in resultsStore.topicDiscoveryResults!.topics" :key="index">
                     <a class="nav-link" :class="{ active: activeTab === index }" href="#"
                         @click.prevent="activeTab = index">
                         {{ topic.name }}
                     </a>
                 </li>
-            </ul>
+            </ul> -->
 
             <!-- Tab Contents -->
             <div class="tab-content">
@@ -29,7 +39,7 @@
                     v-for="(topic, index) in resultsStore.topicDiscoveryResults!.topics" :key="index">
 
                     <!-- Table for each topic -->
-                    <table class="table">
+                    <!-- <table class="table">
                         <thead>
                             <tr>
                                 <th>Word</th>
@@ -44,7 +54,7 @@
                                 <td>{{ topic.timestamps[wordIndex] }}</td>
                             </tr>
                         </tbody>
-                    </table>
+                    </table> -->
                 </div>
             </div>
         </div>
@@ -58,6 +68,7 @@ import Loader from '../common/Loader.vue';
 import { computed, ref } from 'vue';
 import { QueryProgress } from '@/types/api-models';
 import TopicChart from './charts/TopicChart.vue';
+import TopicClusters from './charts/TopicClusters.vue';
 
 const resultsStore = useResultsStore();
 const activeTab = ref(0);

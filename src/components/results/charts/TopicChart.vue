@@ -22,12 +22,12 @@ onMounted(() => {
 
 function plotDiscoveredTopics() {
     const query = resultsStore.results!;
-    const discoveredTopics = resultsStore.topicDiscoveryResults?.topics!;
+    const discoveredTopics = resultsStore.topicDiscoveryResults?.topics_over_time!;
 
     // Prepare series data for ECharts
     const seriesData = discoveredTopics.map(topic => {
         return {
-            name: topic.name,
+            name: resultsStore.topicDiscoveryResults?.topics[topic.id],
             type: 'line',
             connectNulls: true,
             data: [...Array(query.end_year - query.start_year).keys()].map(
@@ -66,17 +66,17 @@ function plotDiscoveredTopics() {
             }
         },
         legend: {
-            data: discoveredTopics.map(topic => topic.name),
-            right: 0,
-            top: "5%",
-            orient: "vertical",
+            data: discoveredTopics.map(topic => resultsStore.topicDiscoveryResults?.topics[topic.id]),
+            left: "center",
+            top: 20,
+            orient: "horizontal",
             align: "left"
         },
         grid: {
             left: '0%',
-            right: '25%',
+            right: "1%",
             bottom: '0%',
-            top: "10%",
+            top: "120",
             containLabel: true
         },
         dataZoom: [

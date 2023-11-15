@@ -25,9 +25,10 @@ export enum QueryProgress {
     AnalysingTrends = 3,
     GeneratingDescription = 4,
     DiscoveringTopics = 5,
-    CitationRetrieval = 6,
-    Finished = 7,
-    Failed = 8
+    ClusteringTopics = 6,
+    CitationRetrieval = 7,
+    Finished = 8,
+    Failed = 9
 }
 
 // export interfaces/Types
@@ -64,14 +65,22 @@ export interface Publication {
 }
 
 interface DiscoveredTopic {
-    name: string;
+    id: number;
     words: string[][];
     frequencies: number[];
     timestamps: number[];
 }
 
+interface ClusteringResults {
+    points_x: number[];
+    points_y: number[];
+    topic_labels: number[];
+}
+
 interface TopicDiscoveryResults {
-    topics: DiscoveredTopic[];
+    topics: { [key: string]: string };
+    clusters: ClusteringResults;
+    topics_over_time: DiscoveredTopic[];
 }
 
 export interface AnalysisResults {

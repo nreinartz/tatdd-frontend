@@ -1,6 +1,6 @@
 import * as echarts from 'echarts/core';
 
-import { BarChart, LineChart, PieChart } from 'echarts/charts';
+import { BarChart, LineChart, PieChart, ScatterChart } from 'echarts/charts';
 
 import { UniversalTransition } from 'echarts/features';
 
@@ -12,15 +12,19 @@ import {
     DataZoomComponent,
     ToolboxComponent,
     VisualMapComponent,
-    MarkLineComponent
+    BrushComponent,
+    MarkLineComponent,
+    MarkAreaComponent
 } from 'echarts/components';
 
-import { SVGRenderer } from 'echarts/renderers';
+import { SVGRenderer, CanvasRenderer } from 'echarts/renderers';
+import { ScatterGLChart } from 'echarts-gl/charts';
 
 echarts.use([
     BarChart,
     LineChart,
     PieChart,
+    ScatterChart,
     TitleComponent,
     LegendComponent,
     TooltipComponent,
@@ -28,9 +32,12 @@ echarts.use([
     DataZoomComponent,
     ToolboxComponent,
     VisualMapComponent,
+    BrushComponent,
+    MarkAreaComponent,
     MarkLineComponent,
     UniversalTransition,
-    SVGRenderer
+    ScatterGLChart,
+    CanvasRenderer
 ]);
 
 export default echarts;

@@ -1,6 +1,7 @@
 import { QueryType, type QueryEntry, type QuerySummary } from "@/types/api-models";
 
-const api_base = `${window.location.protocol}//${window.location.href}/api`;
+//const api_base = `${window.location.protocol}//${window.location.href}/api`;
+const api_base = "http://localhost:8000/api";
 
 export async function createSession(type: QueryType, topics: string[], startYear: number,
     endYear: number, distance: number, minCitations: number): Promise<QueryEntry> {
