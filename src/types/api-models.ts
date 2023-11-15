@@ -74,6 +74,7 @@ interface DiscoveredTopic {
 interface ClusteringResults {
     points_x: number[];
     points_y: number[];
+    points_z: number[];
     topic_labels: number[];
 }
 

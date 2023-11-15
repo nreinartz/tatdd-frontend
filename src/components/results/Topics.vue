@@ -5,7 +5,7 @@
                 <div class="card h-100 shadow-sm" style="min-height: 70vh">
                     <div class="card-body">
                         <template v-if="resultsStore.topicDiscoveryResultsAvailable">
-                            <TopicClusters />
+                            <TopicClusters3D />
                         </template>
                         <Loader v-else :message="loadingMessage" :is-intermediate="loadingMessage === undefined" />
                     </div>
@@ -68,7 +68,7 @@ import Loader from '../common/Loader.vue';
 import { computed, ref } from 'vue';
 import { QueryProgress } from '@/types/api-models';
 import TopicChart from './charts/TopicChart.vue';
-import TopicClusters from './charts/TopicClusters.vue';
+import TopicClusters3D from './charts/TopicClusters3D.vue';
 
 const resultsStore = useResultsStore();
 const activeTab = ref(0);

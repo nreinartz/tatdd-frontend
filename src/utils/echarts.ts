@@ -13,12 +13,12 @@ import {
     ToolboxComponent,
     VisualMapComponent,
     BrushComponent,
-    MarkLineComponent,
-    MarkAreaComponent
+    MarkLineComponent
 } from 'echarts/components';
 
-import { SVGRenderer, CanvasRenderer } from 'echarts/renderers';
-import { ScatterGLChart } from 'echarts-gl/charts';
+import { SVGRenderer } from 'echarts/renderers';
+import { Scatter3DChart } from 'echarts-gl/charts';
+import { Grid3DComponent } from 'echarts-gl/components';
 
 echarts.use([
     BarChart,
@@ -33,11 +33,11 @@ echarts.use([
     ToolboxComponent,
     VisualMapComponent,
     BrushComponent,
-    MarkAreaComponent,
     MarkLineComponent,
     UniversalTransition,
-    ScatterGLChart,
-    CanvasRenderer
+    Scatter3DChart,
+    Grid3DComponent,
+    SVGRenderer
 ]);
 
 export default echarts;
