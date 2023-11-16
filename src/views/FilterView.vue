@@ -217,8 +217,8 @@ const router = useRouter();
 const minYear = 1980;
 const maxYear = 2022;
 const exampleKeywords = [
-    ["machine learning deep learning"],
-    ["blockchain", "finance data"],
+    ["machine learning", "deep learning"],
+    ["blockchain"],
     ["Time-series based academic trend and downtrend detection"]
 ];
 

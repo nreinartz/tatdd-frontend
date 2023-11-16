@@ -10,18 +10,18 @@ import { onMounted, watch } from 'vue';
 const resultsStore = useResultsStore();
 
 onMounted(() => {
-    if (resultsStore.topicDiscoveryResultsAvailable) {
+    if (resultsStore.clusteringResultsAvailable) {
         plotDiscoveredTopics();
     }
     else {
-        watch(() => resultsStore.topicDiscoveryResultsAvailable, () => {
+        watch(() => resultsStore.clusteringResultsAvailable, () => {
             plotDiscoveredTopics();
         });
     }
 });
 
 function plotDiscoveredTopics() {
-    const clusters = resultsStore.topicDiscoveryResults?.clusters!;
+    const clusters = resultsStore.clusteringResults!;
     const miscIndexes = clusters.topic_labels.map((label, index) => label === -1 || index > 9 ? index : -1)
         .filter(index => index !== -1);
 
@@ -37,7 +37,7 @@ function plotDiscoveredTopics() {
         }
 
         dataSeries.push({
-            name: resultsStore.topicDiscoveryResults?.topics![i]!,
+            name: resultsStore.results?.results?.topic_discovery_results?.topics![i]!,
             type: 'scatter3D',
             data: points
         })
@@ -67,6 +67,9 @@ function plotDiscoveredTopics() {
             }
         },
         legend: {
+            selected: {
+                "Miscellaneous": false
+            },
             left: 'center',
             orient: "horizontal",
             top: 50

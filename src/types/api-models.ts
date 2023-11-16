@@ -24,9 +24,9 @@ export enum QueryProgress {
     DataRetrieval = 2,
     AnalysingTrends = 3,
     GeneratingDescription = 4,
-    DiscoveringTopics = 5,
+    CitationRetrieval = 5,
     ClusteringTopics = 6,
-    CitationRetrieval = 7,
+    TopicOverTime = 7,
     Finished = 8,
     Failed = 9
 }

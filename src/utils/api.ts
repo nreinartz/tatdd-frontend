@@ -1,4 +1,4 @@
-import { QueryType, type QueryEntry, type QuerySummary } from "@/types/api-models";
+import { QueryType, type QueryEntry, type QuerySummary, type DataStatistics } from "@/types/api-models";
 
 let api_base: string;
 
@@ -35,5 +35,10 @@ export async function getSession(uuid: string): Promise<QueryEntry> {
 
 export async function getSessionSummary(uuid: string): Promise<QuerySummary> {
     const response = await fetch(`${api_base}/queries/${uuid}/summary`);
+    return response.json();
+}
+
+export async function getStatistics(): Promise<DataStatistics> {
+    const response = await fetch(`${api_base}/statistics`);
     return response.json();
 }

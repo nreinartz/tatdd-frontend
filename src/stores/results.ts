@@ -9,13 +9,15 @@ export const useResultsStore = defineStore('results', () => {
 
     const searchResultsAvailable = computed<boolean>(() => results.value?.results?.search_results != null);
     const trendResultsAvailable = computed<boolean>(() => results.value?.results?.trend_results != null);
-    const topicDiscoveryResultsAvailable = computed<boolean>(() => results.value?.results?.topic_discovery_results != null);
+    const clusteringResultsAvailable = computed<boolean>(() => results.value?.results?.topic_discovery_results?.clusters != null);
+    const topicsOverTimeResultsAvailable = computed<boolean>(() => results.value?.results?.topic_discovery_results?.topics_over_time != null);
     const citationResultsAvailable = computed<boolean>(() => results.value?.results?.citation_results != null);
 
     const searchResults = computed(() => results.value?.results?.search_results);
     const trendResults = computed(() => results.value?.results?.trend_results);
     const citationResults = computed(() => results.value?.results?.citation_results);
-    const topicDiscoveryResults = computed(() => results.value?.results?.topic_discovery_results);
+    const clusteringResults = computed(() => results.value?.results?.topic_discovery_results?.clusters);
+    const topicsOverTimeResults = computed(() => results.value?.results?.topic_discovery_results?.topics_over_time);
 
     const queryFinished = computed<boolean>(() => results.value?.progress === QueryProgress.Finished || results.value?.progress === QueryProgress.Failed);
 
@@ -40,11 +42,13 @@ export const useResultsStore = defineStore('results', () => {
         searchResultsAvailable,
         trendResultsAvailable,
         citationResultsAvailable,
-        topicDiscoveryResultsAvailable,
+        clusteringResultsAvailable,
+        topicsOverTimeResultsAvailable,
         searchResults,
         trendResults,
         citationResults,
-        topicDiscoveryResults,
+        clusteringResults,
+        topicsOverTimeResults,
         results,
         resultsLoading,
         queryFinished,

@@ -4,57 +4,23 @@
             <div class="col-12">
                 <div class="card h-100 shadow-sm" style="min-height: 70vh">
                     <div class="card-body">
-                        <template v-if="resultsStore.topicDiscoveryResultsAvailable">
+                        <template v-if="resultsStore.clusteringResultsAvailable">
                             <TopicClusters3D />
                         </template>
-                        <Loader v-else :message="loadingMessage" :is-intermediate="loadingMessage === undefined" />
+                        <Loader v-else :message="loadingMessageCluster"
+                            :is-intermediate="loadingMessageCluster === undefined" />
                     </div>
                 </div>
             </div>
             <div class="col-12">
                 <div class="card h-100 shadow-sm" style="min-height: 40vh">
                     <div class="card-body">
-                        <template v-if="resultsStore.topicDiscoveryResultsAvailable">
+                        <template v-if="resultsStore.topicsOverTimeResultsAvailable">
                             <TopicChart />
                         </template>
-                        <Loader v-else :message="loadingMessage" :is-intermediate="loadingMessage === undefined" />
+                        <Loader v-else :message="loadingMessageTopics"
+                            :is-intermediate="loadingMessageTopics === undefined" />
                     </div>
-                </div>
-            </div>
-        </div>
-        <div v-if="resultsStore.topicDiscoveryResultsAvailable">
-            <!-- Tab Headers -->
-            <!-- <ul class="nav nav-tabs">
-                <li class="nav-item" v-for="(topic, index) in resultsStore.topicDiscoveryResults!.topics" :key="index">
-                    <a class="nav-link" :class="{ active: activeTab === index }" href="#"
-                        @click.prevent="activeTab = index">
-                        {{ topic.name }}
-                    </a>
-                </li>
-            </ul> -->
-
-            <!-- Tab Contents -->
-            <div class="tab-content">
-                <div class="tab-pane" :class="{ active: activeTab === index }"
-                    v-for="(topic, index) in resultsStore.topicDiscoveryResults!.topics" :key="index">
-
-                    <!-- Table for each topic -->
-                    <!-- <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Word</th>
-                                <th>Frequency</th>
-                                <th>Timestamp</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr v-for="(word, wordIndex) in topic.words" :key="wordIndex">
-                                <td>{{ word }}</td>
-                                <td>{{ topic.frequencies[wordIndex] }}</td>
-                                <td>{{ topic.timestamps[wordIndex] }}</td>
-                            </tr>
-                        </tbody>
-                    </table> -->
                 </div>
             </div>
         </div>
@@ -71,8 +37,12 @@ import TopicChart from './charts/TopicChart.vue';
 import TopicClusters3D from './charts/TopicClusters3D.vue';
 
 const resultsStore = useResultsStore();
-const activeTab = ref(0);
-const loadingMessage = computed<string | undefined>(
-    () => resultsStore.results?.progress === QueryProgress.DiscoveringTopics ? "Discovering topics ..." : undefined
+
+const loadingMessageCluster = computed<string | undefined>(
+    () => resultsStore.results?.progress === QueryProgress.ClusteringTopics ? "Clustering topics ..." : undefined
+);
+
+const loadingMessageTopics = computed<string | undefined>(
+    () => resultsStore.results?.progress === QueryProgress.TopicOverTime ? "Analyzing topics over time ..." : undefined
 );
 </script>

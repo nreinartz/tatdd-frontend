@@ -1,14 +1,15 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import type { DataStatistics } from '@/types/api-models'
+import { getStatistics } from '@/utils/api';
 
 export const useStatsStore = defineStore('statistics', () => {
     const stats = ref<DataStatistics | null>(null)
 
-    async function getStatistics() {
-        const response = await fetch("http://127.0.0.1:8000/api/statistics");
-        stats.value = await response.json();
+    async function _getStatistics() {
+        const statistics = await getStatistics();
+        stats.value = statistics;
     }
 
-    return { stats, getStatistics }
+    return { stats, getStatistics: _getStatistics }
 });

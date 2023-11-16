@@ -10,11 +10,11 @@ import { onMounted, watch } from 'vue';
 const resultsStore = useResultsStore();
 
 onMounted(() => {
-    if (resultsStore.topicDiscoveryResultsAvailable) {
+    if (resultsStore.topicsOverTimeResultsAvailable) {
         plotDiscoveredTopics();
     }
     else {
-        watch(() => resultsStore.topicDiscoveryResultsAvailable, () => {
+        watch(() => resultsStore.topicsOverTimeResultsAvailable, () => {
             plotDiscoveredTopics();
         });
     }
@@ -22,12 +22,12 @@ onMounted(() => {
 
 function plotDiscoveredTopics() {
     const query = resultsStore.results!;
-    const discoveredTopics = resultsStore.topicDiscoveryResults?.topics_over_time!;
+    const discoveredTopics = resultsStore.topicsOverTimeResults!;
 
     // Prepare series data for ECharts
     const seriesData = discoveredTopics.map(topic => {
         return {
-            name: resultsStore.topicDiscoveryResults?.topics[topic.id],
+            name: resultsStore.results?.results?.topic_discovery_results?.topics[topic.id],
             type: 'line',
             connectNulls: true,
             data: [...Array(query.end_year - query.start_year).keys()].map(
@@ -66,7 +66,7 @@ function plotDiscoveredTopics() {
             }
         },
         legend: {
-            data: discoveredTopics.map(topic => resultsStore.topicDiscoveryResults?.topics[topic.id]),
+            data: discoveredTopics.map(topic => resultsStore.results?.results?.topic_discovery_results?.topics[topic.id]),
             left: "center",
             top: 20,
             orient: "horizontal",
