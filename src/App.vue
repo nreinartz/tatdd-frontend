@@ -8,6 +8,12 @@
 						Home
 					</a>
 				</li>
+				<li class="nav-item">
+					<a class="nav-link active" aria-current="page" href="/about">
+						<i class="bi bi-info-lg me-1"></i>
+						About
+					</a>
+				</li>
 			</ul>
 			<template v-if="!isHomeRoute && !isFilterRoute">
 				<RouterLink custom :to="{ name: 'filter' }" v-slot="{ navigate }">
