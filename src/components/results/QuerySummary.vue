@@ -1,40 +1,17 @@
 <template>
     <div class="bg-white shadow-sm">
         <div class="container-lg vstack gap-3 align-items-between">
-            <h1 class="display-6 text-muted text-center py-2">Full analysis</h1>
-            <!-- <dl class="row align-self-center" v-if="resultsStore.results">
-                <dt class="col-sm-4">Topics</dt>
-                <dd class="col-sm-8 d-flex gap-2">
-                    <template v-for="topic of resultsStore.results?.topics">
-                        <span class="badge text-bg-primary">{{ topic }}</span>
-                    </template>
-                </dd>
-
-                <dt class="col-sm-4">Time frame</dt>
-                <dd class="col-sm-8">
-                    {{ resultsStore.results?.start_year }} - {{ resultsStore.results?.end_year }}
-                </dd>
-
-                <template v-if="(resultsStore.results?.type ?? 0) > QueryType.CITATION_RECOMMENDATION">
-                    <dt class="col-sm-4">
-                        Search distance
-                    </dt>
-                    <dd class="col-sm-8">
-                        <div class="badge bg-secondary">{{ resultsStore.results?.distance }}</div>
-                    </dd>
-
-                    <dt class="col-sm-4"># of publications</dt>
-
-                    <dd class="col-sm-8 placeholder-glow">
-                        <template v-if="resultsStore.searchResultsAvailable">
-                            {{ resultsStore.searchResults?.raw.reduce((a, b) => a + b, 0) }}
-                        </template>
-                        <template v-else>
-                            <span class="placeholder col-4"></span>
-                        </template>
-                    </dd>
-                </template> 
-            </dl>-->
+            <h1 class="display-6 text-muted text-center py-2">
+                <span v-if="resultsStore.results?.type == QueryType.CITATION_RECOMMENDATION">
+                    Citation Recommendation
+                </span>
+                <span v-else-if="resultsStore.results?.type == QueryType.TREND_ANALYSIS">
+                    Trend Analysis
+                </span>
+                <span v-else>
+                    Full Analysis
+                </span>
+            </h1>
         </div>
     </div>
     <div class="container">
@@ -48,11 +25,11 @@
                                     <i class="bi bi-file-richtext me-2"></i>
                                     Topics
                                 </span>
-                                <template v-for="topic of resultsStore.results?.topics">
-                                    <div class="hstack align-items-center">
+                                <div class="d-flex gap-3">
+                                    <template v-for="topic of resultsStore.results?.topics">
                                         <span class="badge bg-primary pill-rounded text-truncate">{{ topic }}</span>
-                                    </div>
-                                </template>
+                                    </template>
+                                </div>
                             </div>
                         </li>
                         <li class="list-group-item">
@@ -106,13 +83,6 @@ import { useResultsStore } from '@/stores/results';
 import { QueryType } from '@/types/api-models';
 import { computed } from 'vue';
 const resultsStore = useResultsStore();
-
-const pubNumAvailable = computed(() => {
-    if (!resultsStore.searchResultsAvailable) {
-        return false;
-    }
-    return resultsStore.results?.results.search_results?.raw!;
-});
 </script>
 
 <style scoped></style>

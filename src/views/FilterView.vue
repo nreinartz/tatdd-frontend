@@ -60,8 +60,15 @@
                         <hr />
                         <div class="alert alert-secondary mt-3 mb-0 text-muted">
                             The keyword filter allows you to specify topics that should be considered. You can either use
-                            single
-                            keywords or whole phrases or desciptions. If you define more than one keyword
+                            single keywords or whole phrase to describe your topic.
+                            <p>
+                                <strong>Please note:</strong> Defining multiple keywords does not act as an "or" operator.
+                                If you define more
+                                than one keyword, each vector representation will be calculated separately and the centroid
+                                of
+                                all will be used to query the database. This can lead to unexpected results (e.g if your
+                                keywords are not "close" to each other).
+                            </p>
                             <hr />
                             <div class="hstack gap-2 flex-wrap">
                                 Examples:
@@ -236,7 +243,7 @@ const analyseButtonEnabled = computed<boolean>(() => topics.value.length > 0);
 const distance = ref<string>("0.11");
 const minCitations = ref<string>("0");
 const topics = ref<string[]>([]);
-const selectedMinYear = ref<number>(minYear);
+const selectedMinYear = ref<number>(2000);
 const selectedMaxYear = ref<number>(maxYear);
 const topicInput = ref<string>("");
 const isCreatingSession = ref<boolean>(false);
