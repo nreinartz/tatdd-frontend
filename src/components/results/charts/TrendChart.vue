@@ -65,7 +65,7 @@ function plotTrends() {
             containLabel: true,
             left: "0%",
             right: "1%",
-            bottom: "10%",
+            bottom: "15%",
             top: "20%"
         },
         dataZoom: [

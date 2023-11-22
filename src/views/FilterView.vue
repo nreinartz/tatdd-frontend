@@ -14,7 +14,7 @@
                     <div class="card-body">
                         <span class="text-muted">Consider publications that were published between the start and end
                             year:</span>
-                        <div class="row justify-content-center mt-2">
+                        <div class="row justify-content-center mt-2 row-gap-2">
                             <div class="col-lg-6 col-sm-6">
                                 <div class="input-group input-group">
                                     <span class="input-group-text" id="inputGroup-sizing-sm">Start year</span>
@@ -73,13 +73,13 @@
                             <div class="hstack gap-2 flex-wrap">
                                 Examples:
                                 <template v-for="(exampleTopic, i) in exampleKeywords">
-                                    <div class="hstack gap-2" style="cursor: pointer;"
+                                    <div class="hstack gap-2 text-truncate" style="cursor: pointer;"
                                         @click="onAddExampleTopic(exampleTopic)">
                                         <div class="badge bg-primary text-truncate" v-for="topic in exampleTopic">
                                             {{ topic }}
                                         </div>
                                     </div>
-                                    <div class="vr" v-if="i < exampleKeywords.length"></div>
+                                    <div class="vr" v-if="i < exampleKeywords.length - 1"></div>
                                 </template>
                             </div>
                         </div>
@@ -243,7 +243,7 @@ const analyseButtonEnabled = computed<boolean>(() => topics.value.length > 0);
 const distance = ref<string>("0.11");
 const minCitations = ref<string>("0");
 const topics = ref<string[]>([]);
-const selectedMinYear = ref<number>(2000);
+const selectedMinYear = ref<number>(1990);
 const selectedMaxYear = ref<number>(maxYear);
 const topicInput = ref<string>("");
 const isCreatingSession = ref<boolean>(false);
