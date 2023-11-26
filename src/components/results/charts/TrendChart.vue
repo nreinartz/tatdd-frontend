@@ -1,5 +1,6 @@
 <template>
-    <div id="trend-chart" class="h-100"></div>
+    <div id="trend-chart" style="height: 50%"></div>
+    <div id="raw-chart" style="height: 50%"></div>
 </template>
 
 <script setup lang="ts">
@@ -13,10 +14,12 @@ const resultsStore = useResultsStore();
 onMounted(() => {
     if (resultsStore.trendResultsAvailable) {
         plotTrends();
+        plotRaw();
     }
     else {
         watch(() => resultsStore.trendResultsAvailable, () => {
             plotTrends();
+            plotRaw();
         });
     }
 });
@@ -31,7 +34,7 @@ function plotTrends() {
 
     const option = {
         title: {
-            text: 'Relative number of publications for selected topic'
+            text: 'Assumed topic popularity based on mean similarity'
         },
         legend: {
             bottom: 0,
@@ -82,6 +85,8 @@ function plotTrends() {
         },
         yAxis: {
             type: 'value',
+            max: 100,
+            min: 0,
             axisLabel: {
                 formatter: '{value}%'
             },
@@ -152,6 +157,120 @@ function plotTrends() {
     };
 
     const chartDom = document.getElementById('trend-chart')!;
+    const myChart = echarts.init(chartDom);
+
+    myChart.setOption(option);
+    window.addEventListener('resize', () => myChart.resize());
+}
+
+function plotRaw() {
+    const query = resultsStore.results!;
+    const results = query.results!;
+    const dataLength = query.end_year - query.start_year + 1;
+
+    const option = {
+        title: {
+            text: 'Raw mean similarity per year'
+        },
+        legend: {
+            bottom: 0
+        },
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'cross'
+            }
+        },
+        toolbox: {
+            show: true,
+            feature: {
+                saveAsImage: {}
+            }
+        },
+        grid: {
+            containLabel: true,
+            left: "0%",
+            right: "1%",
+            bottom: "15%",
+            top: "20%"
+        },
+        dataZoom: [
+            {
+                type: 'inside',
+                start: 0,
+                end: query.end_year
+            }
+        ],
+        xAxis: {
+            type: 'category',
+            show: true,
+            data: [...Array(dataLength).keys()].map(i => query.start_year + i)
+        },
+        yAxis:
+        {
+            type: 'value',
+            name: "Similarity",
+            min: Math.min(query.cutoff, ...(results.search_results?.raw ?? [])) - 0.01,
+            max: "dataMax",
+            axisLabel: {
+                formatter: (value: number) => Math.round(value * 1000) / 1000
+            },
+            axisLine: {
+                show: true,
+                lineStyle: {
+                    color: "blue"
+                }
+            },
+            axisPointer: {
+                snap: false
+            },
+        },
+        visualMap: {
+            show: false,
+            seriesIndex: 0,
+            pieces: [
+                {
+                    gte: 0,
+                    lte: query.cutoff,
+                    color: 'gray'
+                },
+                {
+                    gte: query.cutoff,
+                    color: 'blue'
+                }
+            ]
+        },
+        series: [
+            {
+                name: 'Cosine similarity',
+                type: 'line',
+                color: "blue",
+                showSymbol: false,
+                smooth: false,
+                data: results.search_results?.raw,
+                markLine: {
+                    symbol: ['none', 'none'],
+                    label: {
+                        show: true,
+                        formatter: 'Similarity cutoff',
+                        position: 'middle',
+                        color: "red"
+                    },
+                    lineStyle: {
+                        color: 'red'
+                    },
+                    data: [
+                        {
+                            yAxis: query.cutoff
+                        }
+                    ]
+                }
+            }
+        ],
+
+    };
+
+    const chartDom = document.getElementById('raw-chart')!;
     const myChart = echarts.init(chartDom);
 
     myChart.setOption(option);

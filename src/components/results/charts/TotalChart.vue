@@ -86,7 +86,7 @@ function plotTotalPublications() {
                 name: 'Topic publications',
                 type: 'bar',
                 color: "#5c689f",
-                data: resultsStore.searchResults!.raw
+                data: resultsStore.searchResults!.raw_per_year
             },
             {
                 name: 'Total publications',

@@ -22,7 +22,7 @@
         <div
             class="card-footer d-flex flex-wrap align-items-center gap-1 justify-content-center justify-content-md-between">
             <div>
-                <span class="badge text-bg-light">Distance: {{ Math.round(publication.distance * 1000) / 1000 }}</span>
+                <span class="badge text-bg-light">Similarity: {{ Math.round(publication.similarity * 1000) / 1000 }}</span>
                 <span class="badge text-bg-light ms-2">Citations: {{ publication.citations ?? "<Unknown>" }}</span>
             </div>
 

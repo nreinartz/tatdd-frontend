@@ -2,7 +2,7 @@
     <CollapsibleSection title="Trends" icon="bi-graph-up">
         <div class="row row-gap-3 mt-4">
             <div class="col-12">
-                <div class="card h-100 shadow-sm" style="min-height: 45vh">
+                <div class="card h-100 shadow-sm" style="min-height: 800px">
                     <div class="card-body">
                         <template v-if="resultsStore.trendResultsAvailable">
                             <TrendChart />

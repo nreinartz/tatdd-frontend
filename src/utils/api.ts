@@ -9,7 +9,7 @@ if (import.meta.env.MODE === 'development') {
 }
 
 export async function createSession(type: QueryType, topics: string[], startYear: number,
-    endYear: number, distance: number, minCitations: number): Promise<QueryEntry> {
+    endYear: number, cutoff: number, minCitations: number): Promise<QueryEntry> {
     const response = await fetch(`${api_base}/queries`, {
         method: 'POST',
         headers: {
@@ -20,7 +20,7 @@ export async function createSession(type: QueryType, topics: string[], startYear
             topics,
             start_year: startYear,
             end_year: endYear,
-            distance,
+            cutoff,
             min_citations: minCitations
         })
     });
@@ -35,6 +35,9 @@ export async function getSession(uuid: string): Promise<QueryEntry> {
 
 export async function getSessionSummary(uuid: string): Promise<QuerySummary> {
     const response = await fetch(`${api_base}/queries/${uuid}/summary`);
+    if (response.status !== 200) {
+        throw new Error("Error retrieving session");
+    }
     return response.json();
 }
 

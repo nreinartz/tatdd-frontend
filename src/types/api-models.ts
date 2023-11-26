@@ -37,11 +37,12 @@ export interface QueryRequest {
     topics: string[];
     start_year: number;
     end_year: number;
-    distance?: number;
+    cutoff?: number;
 }
 
 export interface SearchResults {
     raw: number[];
+    raw_per_year: number[];
     adjusted: number[];
     pub_types: { [type: string]: number };
 }
@@ -60,7 +61,7 @@ export interface Publication {
     year: number;
     type: string;
     abstract: string;
-    distance: number;
+    similarity: number;
     citations: number;
 }
 
@@ -102,11 +103,11 @@ export interface QueryEntry {
     topics: string[];
     start_year: number;
     end_year: number;
-    distance: number;
+    cutoff: number;
     results: AnalysisResults;
 }
 
-export type QuerySummary = Pick<QueryEntry, 'uuid' | 'type' | 'progress' | 'topics' | 'start_year' | 'end_year' | 'distance'>;
+export type QuerySummary = Pick<QueryEntry, 'uuid' | 'type' | 'progress' | 'topics' | 'start_year' | 'end_year' | 'cutoff'>;
 
 export interface DataStatistics {
     total_publications: number;

@@ -48,10 +48,10 @@
                     <h4 class="card-title">Data Processing</h4>
                     <p>Each publication is converted into a vector embedding using the <a
                             href="https://huggingface.co/allenai/specter2_base">allenai/specter2</a> model and then inserted
-                        into a <a href="https://weaviate.io/">weaviate</a> vetor database. For each query we aggregate the
-                        number of publications per year that match the given topic description & distance and divide this
-                        number
-                        by the total number of publications per year. This time-series is then used as a basis for our trend
+                        into a <a href="https://weaviate.io/">weaviate</a> vetor database. For each query we get a set
+                        amount (relative to each years total publication count) of publications, calculate the mean cosine
+                        similarity and construct a popularity chart from that. This time-series is then used as a basis for
+                        our trend
                         analysis.</p>
                 </div>
             </div>
@@ -204,9 +204,9 @@ const trendAnalysisConversation = [
     "Start a trend analysis",
     `Ok, for which topics?<br/><br>Use the following format: <strong>!topics</strong> topic1, topic2, "Sentence, describing topic 3"`,
     "<strong>!topics</strong> blockchain",
-    `Alright, I will analyse the following topics:<br>blockchain<br><br>What parameters (distance, time range, both) do you want to adjust? If you want to use the default settings, simply say "no".`,
-    "Use distance 0.12",
-    "Alright, I adjusted the distance to 0.12. Do you want to adjust the time range as well?",
+    `Alright, I will analyse the following topics:<br>blockchain<br><br>What parameters (cutoff, time range, both) do you want to adjust? If you want to use the default settings, simply say "no".`,
+    "Use cutoff 0.88",
+    "Alright, I adjusted the cutoff to 0.89. Do you want to adjust the time range as well?",
     "no",
     "[Results]"
 ];
@@ -214,11 +214,11 @@ const trendAnalysisConversation = [
 const repeatAnalysisConversation = [
     "[Results]",
     "Repeat the last analysis",
-    "Sure, what parameters (distance, time range, both)  do you want to have adjusted?",
+    "Sure, what parameters (cutoff, time range, both)  do you want to have adjusted?",
     "both",
-    "As you wish. What distance should I use for the next analysis?",
-    "0.23",
-    "Okay, I adjusted the distance to 0.23. What time range should I consider?",
+    "As you wish. What cutoff should I use for the next analysis?",
+    "0.92",
+    "Okay, I adjusted the cutoff to 0.94. What time range should I consider?",
     "2000-2010",
     "[Results ...]"
 ]

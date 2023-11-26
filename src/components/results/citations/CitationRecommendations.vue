@@ -3,11 +3,11 @@
         <div class="row row-gap-2">
             <div class="col-auto ms-auto">
                 <div class="btn-group" role="group" aria-label="Sorting button group">
-                    <input type="radio" class="btn-check" name="btnradio" id="btnSortByDistance" autocomplete="off"
+                    <input type="radio" class="btn-check" name="btnradio" id="btnSortBySimilarity" autocomplete="off"
                         v-model="radioValue" :value="0">
-                    <label class="btn btn-outline-primary" for="btnSortByDistance">
+                    <label class="btn btn-outline-primary" for="btnSortBySimilarity">
                         <i class="bi bi-geo-alt me-1"></i>
-                        Distance
+                        Similarity
                     </label>
 
                     <input type="radio" class="btn-check" name="btnradio" id="btnSortByYear" autocomplete="off"
@@ -56,10 +56,10 @@ import type { Publication } from '@/types/api-models';
 
 const resultsStore = useResultsStore();
 const radioValue = ref<number>(0);
-const sortAscending = ref<boolean>(true);
+const sortAscending = ref<boolean>(false);
 
 const sortOptions: { [key: number]: keyof Publication } = {
-    0: 'distance',
+    0: 'similarity',
     1: 'year',
     2: 'citations',
 };

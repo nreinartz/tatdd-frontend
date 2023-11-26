@@ -94,23 +94,26 @@
                     </div>
                     <div class="card-body">
 
-                        <label for="distanceRange" class="form-label">
-                            Distance: <div class="badge bg-secondary">{{ distance }}</div>
+                        <label for="cutoffRange" class="form-label">
+                            Cut-off similarity: <div class="badge bg-secondary">{{ cutoff }}</div>
                         </label>
 
                         <div class="d-flex justify-content-between align-items-center gap-2">
-                            <div class="badge rounded-pill bg-secondary">0</div>
-                            <input type="range" min="0" max="2" step="0.01" class="form-range" id="distanceRange"
-                                v-model="distance">
-                            <div class="badge rounded-pill bg-secondary">2</div>
+                            <div class="badge rounded-pill bg-secondary">0.7</div>
+                            <input type="range" min="0.7" max="0.98" step="0.001" class="form-range" id="cutoffRange"
+                                v-model="cutoff">
+                            <div class="badge rounded-pill bg-secondary">0.98</div>
                         </div>
 
                         <hr />
 
                         <div class="alert alert-secondary mt-3 mb-0 text-muted small">
-                            The distance controls how similar the topics should be. A distance of 0 means that the topics
-                            must be exactly the same. A distance of 2 means that the topics can be completely different.
-                            <strong>Experience has shown that a distance of 0.11 is a good starting value.</strong>
+                            The similarity cutoff controls which publications should be considered when contructing the
+                            popularity chart. A similarity of -1 basically means, that the topics oppose each other while a
+                            score of 1 means that they are the same. We set 0.7 as minimum, otherwise the search space will
+                            be too large.
+                            <strong>Experience has shown that a cut-off of 0.89 is a good starting value. The results will
+                                show you if this is a good value for your topic.</strong>
                         </div>
                     </div>
                 </div>
@@ -123,7 +126,7 @@
                     </div>
                     <div class="card-body">
 
-                        <label for="distanceRange" class="form-label">
+                        <label for="minCitations" class="form-label">
                             Min citation count: <div class="badge bg-secondary">{{ minCitations }}</div>
                         </label>
 
@@ -226,7 +229,8 @@ const maxYear = 2022;
 const exampleKeywords = [
     ["machine learning", "deep learning"],
     ["blockchain"],
-    ["Time-series based academic trend and downtrend detection"]
+    ["Time-series based academic trend and downtrend detection"],
+    ["p2p network", "bittorrent"]
 ];
 
 const arrayRange = (start: number, stop: number, step: number): number[] =>
@@ -240,7 +244,7 @@ const startYearOptions = computed<number[]>(() => arrayRange(minYear, selectedMa
 const endYearOptions = computed<number[]>(() => arrayRange(selectedMinYear.value + 4, maxYear, 1));
 const analyseButtonEnabled = computed<boolean>(() => topics.value.length > 0);
 
-const distance = ref<string>("0.11");
+const cutoff = ref<string>("0.89");
 const minCitations = ref<string>("0");
 const topics = ref<string[]>([]);
 const selectedMinYear = ref<number>(1990);
@@ -285,7 +289,7 @@ async function onCreate(type: QueryType) {
             topics.value,
             selectedMinYear.value,
             selectedMaxYear.value,
-            parseFloat(distance.value),
+            parseFloat(cutoff.value),
             parseInt(minCitations.value)
         );
 

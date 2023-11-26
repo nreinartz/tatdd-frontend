@@ -41,7 +41,7 @@
                 </li>
                 <li class="list-group-item">
                     <div class="hstack justify-content-between text-muted">
-                        Distance: <span class="badge bg-primary pill-rounded">{{ props.summary.distance }}</span>
+                        Cutoff: <span class="badge bg-primary pill-rounded">{{ props.summary.cutoff }}</span>
                     </div>
                 </li>
             </ul>

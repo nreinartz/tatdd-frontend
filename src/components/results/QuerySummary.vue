@@ -49,12 +49,12 @@
                         <li class="list-group-item">
                             <div class="hstack flex-wrap justify-content-between align-items-center gap-2">
                                 <span class="fw-bold">
-                                    <i class="bi bi-search me-2"></i>
-                                    Search distance
+                                    <i class="bi bi-scissors me-2"></i>
+                                    Cut-off similarity
                                 </span>
                                 <div class="hstack align-items-center gap-2">
                                     <span class="badge bg-secondary pill-rounded text-truncate">{{
-                                        resultsStore.results?.distance }}</span>
+                                        resultsStore.results?.cutoff }}</span>
                                 </div>
                             </div>
                         </li>
@@ -66,7 +66,8 @@
                                 </span>
                                 <div class="hstack align-items-center gap-2">
                                     <span class="badge bg-secondary pill-rounded text-truncate">{{
-                                        resultsStore.results?.results.search_results?.raw.reduce((a, b) => a + b, 0)
+                                        resultsStore.results?.results.search_results?.raw_per_year.reduce((a, b) => a + b,
+                                            0)
                                     }}</span>
                                 </div>
                             </div>
@@ -81,7 +82,6 @@
 <script setup lang="ts">
 import { useResultsStore } from '@/stores/results';
 import { QueryType } from '@/types/api-models';
-import { computed } from 'vue';
 const resultsStore = useResultsStore();
 </script>
 

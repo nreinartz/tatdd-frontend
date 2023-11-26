@@ -59,12 +59,15 @@ const errorLoadingSessions = ref<boolean>(false);
 
 async function loadSessions() {
 	try {
-		sessions.value = await Promise.all(sessionStore.sessions.map(uuid => getSessionSummary(uuid)));
-	}
-	catch (error) {
+		const promises = sessionStore.sessions.map(getSessionSummary);
+		const sessionSummaries = await Promise.all(promises);
+		sessions.value = sessionSummaries;
+	} catch (error) {
 		errorLoadingSessions.value = true;
+		sessionStore.sessions.forEach(sessionStore.removeSession);
 	}
 	finally {
+		console.log(sessions.value)
 		loadingSessions.value = false;
 	}
 }
