@@ -250,6 +250,7 @@ function plotRaw() {
                 data: results.search_results?.raw,
                 markLine: {
                     symbol: ['none', 'none'],
+                    precision: 3,
                     label: {
                         show: true,
                         formatter: 'Similarity cutoff',
