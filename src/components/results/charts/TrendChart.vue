@@ -206,12 +206,11 @@ function plotRaw() {
             show: true,
             data: [...Array(dataLength).keys()].map(i => query.start_year + i)
         },
-        yAxis:
-        {
+        yAxis: {
             type: 'value',
             name: "Similarity",
-            min: Math.min(query.cutoff, ...(results.search_results?.raw ?? [])) - 0.01,
-            max: "dataMax",
+            min: Math.min(query.cutoff, ...(results.search_results?.raw ?? [])) - 0.005,
+            max: Math.max(query.cutoff, ...(results.search_results?.raw ?? [])) + 0.005,
             axisLabel: {
                 formatter: (value: number) => Math.round(value * 1000) / 1000
             },
@@ -249,27 +248,44 @@ function plotRaw() {
                 smooth: false,
                 data: results.search_results?.raw,
                 markLine: {
-                    symbol: ['none', 'none'],
-                    precision: 3,
-                    label: {
-                        show: true,
-                        formatter: 'Similarity cutoff',
-                        position: 'middle',
-                        color: "red"
-                    },
-                    lineStyle: {
-                        color: 'red'
-                    },
+                    symbol: "none",
                     data: [
                         {
+                            symbol: "none",
+                            precision: 3,
+                            label: {
+                                show: true,
+                                formatter: 'Similarity cutoff',
+                                position: 'middle',
+                                color: "red"
+                            },
+                            lineStyle: {
+                                color: 'red'
+                            },
                             yAxis: query.cutoff
                         }
                     ]
                 }
             }
         ],
-
     };
+
+    if (results.search_results?.adjusted_cutoff !== null) {
+        option.series[0].markLine.data.push({
+            symbol: "none",
+            precision: 3,
+            label: {
+                show: true,
+                formatter: 'Adjusted cutoff',
+                position: 'middle',
+                color: "orange"
+            },
+            lineStyle: {
+                color: 'orange'
+            },
+            yAxis: results.search_results?.adjusted_cutoff ?? 0
+        });
+    }
 
     const chartDom = document.getElementById('raw-chart')!;
     const myChart = echarts.init(chartDom);
@@ -277,4 +293,5 @@ function plotRaw() {
     myChart.setOption(option);
     window.addEventListener('resize', () => myChart.resize());
 }
+
 </script>

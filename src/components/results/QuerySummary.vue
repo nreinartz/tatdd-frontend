@@ -47,14 +47,21 @@
                             </div>
                         </li>
                         <li class="list-group-item">
-                            <div class="hstack flex-wrap justify-content-between align-items-center gap-2">
+                            <div class="hstack flex-wrap justify-content-between align-items-center">
                                 <span class="fw-bold">
                                     <i class="bi bi-scissors me-2"></i>
                                     Cut-off similarity
                                 </span>
-                                <div class="hstack align-items-center gap-2">
-                                    <span class="badge bg-secondary pill-rounded text-truncate">{{
-                                        resultsStore.results?.cutoff }}</span>
+                                <div class="hstack align-items-center gap-1">
+                                    <span class="badge bg-secondary pill-rounded text-truncate">
+                                        {{ resultsStore.results?.cutoff }}
+                                    </span>
+                                    <template v-if="resultsStore.searchResults?.adjusted_cutoff != null">
+                                        <i class="bi bi-arrow-right-short"></i>
+                                        <span class="badge bg-warning pill-rounded text-truncate">
+                                            {{ resultsStore.searchResults?.adjusted_cutoff }}
+                                        </span>
+                                    </template>
                                 </div>
                             </div>
                         </li>
@@ -76,13 +83,40 @@
                 </div>
             </div>
         </div>
+
+        <template v-if="resultsStore.searchResults?.adjusted_cutoff != null">
+            <div class="alert alert-warning mt-3 mb-0">
+                <i class="bi bi-exclamation-triangle-fill me-2"></i> The intended cutoff yielded no results. I've adjusted
+                it for you. But please be wary, your topic might not be accurately represented in our available
+                publications.
+            </div>
+        </template>
+        <div class="hstack justify-content-center">
+            <button class="btn btn-primary mx-auto mt-3" @click="repeatWithDifferentFilter">
+                <i class="bi bi-arrow-repeat me-2"></i>
+                Repeat query with different parameters
+            </button>
+        </div>
     </div>
 </template>
 
 <script setup lang="ts">
+import { useFilterStore } from '@/stores/filter';
 import { useResultsStore } from '@/stores/results';
 import { QueryType } from '@/types/api-models';
-const resultsStore = useResultsStore();
-</script>
+import { useRouter } from 'vue-router';
 
-<style scoped></style>
+const resultsStore = useResultsStore();
+const filterStore = useFilterStore();
+const router = useRouter();
+
+const repeatWithDifferentFilter = () => {
+    filterStore.minCitations = String(resultsStore.results?.min_citations ?? 0);
+    filterStore.selectedMinYear = resultsStore.results?.start_year ?? 1990;
+    filterStore.selectedMaxYear = resultsStore.results?.end_year ?? 2022;
+    filterStore.topics = resultsStore.results?.topics ?? [];
+    filterStore.cutoff = String(resultsStore.results?.cutoff ?? 0.89);
+
+    router.push("/filter");
+};
+</script>

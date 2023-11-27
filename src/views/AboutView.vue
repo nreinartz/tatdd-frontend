@@ -65,6 +65,8 @@
                     <ul>
                         <li>blockchain</li>
                         <li>machine learning deep learning</li>
+                        <li>p2p network, bittorrent</li>
+                        <li>ftp file sharing protocol</li>
                     </ul>
                 </div>
             </div>

@@ -17,7 +17,7 @@
             <div class="alert alert-danger" role="alert">
                 <h4 class="alert-heading"><i class="bi bi-exclamation-circle me-2"></i>Query failed</h4>
                 <p>There was an error while processing your analysis request. This might be due to a too large search
-                    window, try again with a smaller search distance.</p>
+                    window, try again with a smaller cutoff.</p>
             </div>
         </div>
     </div>

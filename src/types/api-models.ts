@@ -37,6 +37,7 @@ export interface QueryRequest {
     topics: string[];
     start_year: number;
     end_year: number;
+    min_citations?: number;
     cutoff?: number;
 }
 
@@ -45,6 +46,7 @@ export interface SearchResults {
     raw_per_year: number[];
     adjusted: number[];
     pub_types: { [type: string]: number };
+    adjusted_cutoff: number;
 }
 
 export interface TrendResults {
@@ -103,6 +105,7 @@ export interface QueryEntry {
     topics: string[];
     start_year: number;
     end_year: number;
+    min_citations: number;
     cutoff: number;
     results: AnalysisResults;
 }

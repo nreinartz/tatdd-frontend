@@ -18,7 +18,7 @@
                             <div class="col-lg-6 col-sm-6">
                                 <div class="input-group input-group">
                                     <span class="input-group-text" id="inputGroup-sizing-sm">Start year</span>
-                                    <select class="form-select" v-model.number="selectedMinYear">
+                                    <select class="form-select" v-model.number="filterStore.selectedMinYear">
                                         <option v-for="year in startYearOptions" :value="year">{{ year }}</option>
                                     </select>
                                 </div>
@@ -27,7 +27,7 @@
                             <div class="col-lg-6 col-sm-6">
                                 <div class="input-group input-group">
                                     <span class="input-group-text" id="inputGroup-sizing-sm">End year</span>
-                                    <select class="form-select" v-model.number="selectedMaxYear">
+                                    <select class="form-select" v-model.number="filterStore.selectedMaxYear">
                                         <option v-for="year in endYearOptions" :value="year">{{ year }}</option>
                                     </select>
                                 </div>
@@ -52,8 +52,8 @@
                                 <i class="bi bi-plus"></i>Add
                             </button>
                         </div>
-                        <div class="d-flex gap-2 mt-3" v-if="topics.length > 0">
-                            <template v-for="topic in topics">
+                        <div class="d-flex gap-2 mt-3" v-if="filterStore.topics.length > 0">
+                            <template v-for="topic in filterStore.topics">
                                 <Keyword :keyword="topic" @remove="onKeywordRemove" />
                             </template>
                         </div>
@@ -95,13 +95,13 @@
                     <div class="card-body">
 
                         <label for="cutoffRange" class="form-label">
-                            Cut-off similarity: <div class="badge bg-secondary">{{ cutoff }}</div>
+                            Cut-off similarity: <div class="badge bg-secondary">{{ filterStore.cutoff }}</div>
                         </label>
 
                         <div class="d-flex justify-content-between align-items-center gap-2">
                             <div class="badge rounded-pill bg-secondary">0.7</div>
                             <input type="range" min="0.7" max="0.98" step="0.001" class="form-range" id="cutoffRange"
-                                v-model="cutoff">
+                                v-model="filterStore.cutoff">
                             <div class="badge rounded-pill bg-secondary">0.98</div>
                         </div>
 
@@ -127,13 +127,13 @@
                     <div class="card-body">
 
                         <label for="minCitations" class="form-label">
-                            Min citation count: <div class="badge bg-secondary">{{ minCitations }}</div>
+                            Min citation count: <div class="badge bg-secondary">{{ filterStore.minCitations }}</div>
                         </label>
 
                         <div class="d-flex justify-content-between align-items-center gap-2">
                             <div class="badge rounded-pill bg-secondary">0</div>
                             <input type="range" min="0" max="1000" step="1" class="form-range" id="minCitations"
-                                v-model="minCitations">
+                                v-model="filterStore.minCitations">
                             <div class="badge rounded-pill bg-secondary">1000</div>
                         </div>
 
@@ -222,8 +222,13 @@ import { QueryType } from '@/types/api-models';
 import { useSessionStore } from '@/stores/sessions';
 import { Toast } from 'bootstrap';
 import Loader from '@/components/common/Loader.vue';
+import { useFilterStore } from '@/stores/filter';
 
 const router = useRouter();
+const filterStore = useFilterStore();
+const sessionStore = useSessionStore();
+
+
 const minYear = 1980;
 const maxYear = 2022;
 const exampleKeywords = [
@@ -240,30 +245,22 @@ const arrayRange = (start: number, stop: number, step: number): number[] =>
     );
 
 
-const startYearOptions = computed<number[]>(() => arrayRange(minYear, selectedMaxYear.value - 4, 1));
-const endYearOptions = computed<number[]>(() => arrayRange(selectedMinYear.value + 4, maxYear, 1));
-const analyseButtonEnabled = computed<boolean>(() => topics.value.length > 0);
+const startYearOptions = computed<number[]>(() => arrayRange(minYear, filterStore.selectedMaxYear - 4, 1));
+const endYearOptions = computed<number[]>(() => arrayRange(filterStore.selectedMinYear + 4, maxYear, 1));
+const analyseButtonEnabled = computed<boolean>(() => filterStore.topics.length > 0);
 
-const cutoff = ref<string>("0.89");
-const minCitations = ref<string>("0");
-const topics = ref<string[]>([]);
-const selectedMinYear = ref<number>(1990);
-const selectedMaxYear = ref<number>(maxYear);
 const topicInput = ref<string>("");
 const isCreatingSession = ref<boolean>(false);
-
 const errorToast = ref(null);
 const errorToastInstance = ref<Toast | null>(null);
 
-const sessionStore = useSessionStore();
-
 const onKeywordRemove = (keyword: string) => {
-    topics.value = topics.value.filter((topic) => topic !== keyword);
+    filterStore.topics = filterStore.topics.filter((topic) => topic !== keyword);
 };
 
 const onAddKeyword = () => {
-    if (!topics.value.includes(topicInput.value)) {
-        topics.value.push(topicInput.value);
+    if (!filterStore.topics.includes(topicInput.value)) {
+        filterStore.topics.push(topicInput.value);
     }
 
     topicInput.value = "";
@@ -271,8 +268,8 @@ const onAddKeyword = () => {
 
 const onAddExampleTopic = (topic: string[]) => {
     for (const t of topic) {
-        if (!topics.value.includes(t)) {
-            topics.value.push(t);
+        if (!filterStore.topics.includes(t)) {
+            filterStore.topics.push(t);
         }
     }
 };
@@ -286,14 +283,15 @@ async function onCreate(type: QueryType) {
         isCreatingSession.value = true;
 
         const session = await createSession(type,
-            topics.value,
-            selectedMinYear.value,
-            selectedMaxYear.value,
-            parseFloat(cutoff.value),
-            parseInt(minCitations.value)
+            filterStore.topics,
+            filterStore.selectedMinYear,
+            filterStore.selectedMaxYear,
+            parseFloat(filterStore.cutoff),
+            parseInt(filterStore.minCitations)
         );
 
         sessionStore.addSession(session.uuid);
+        filterStore.reset();
 
         router.push({
             name: "results",
