@@ -38,7 +38,8 @@
                         have a valid title, abstract, DOI, publication year. In addition, each entry can have a number on
                         how
                         often they have been cited, if available.</p>
-                    <p>This leads to a total number of <strong>4153428</strong> publications in our database. A total
+                    <p>This leads to a total number of <strong>{{ statsStore.stats?.total_publications }}</strong>
+                        publications in our database. A total
                         distribution of the available publications (per year) can be seen in each analysis result.</p>
                 </div>
             </div>
@@ -199,6 +200,7 @@
 import { onMounted, ref } from 'vue';
 import Conversation from '@/components/about/Conversation.vue';
 import { useRoute } from 'vue-router';
+import { useStatsStore } from '@/stores/stats';
 
 const tabIndex = ref(0);
 
@@ -226,6 +228,9 @@ const repeatAnalysisConversation = [
 ]
 
 const route = useRoute();
+const statsStore = useStatsStore();
+
+statsStore.getStatistics();
 
 onMounted(() => {
     const tab = route.query.tab;

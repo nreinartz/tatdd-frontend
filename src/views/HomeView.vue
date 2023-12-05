@@ -67,7 +67,6 @@ async function loadSessions() {
 		sessionStore.sessions.forEach(sessionStore.removeSession);
 	}
 	finally {
-		console.log(sessions.value)
 		loadingSessions.value = false;
 	}
 }
