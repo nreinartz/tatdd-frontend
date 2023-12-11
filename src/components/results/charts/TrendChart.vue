@@ -230,11 +230,11 @@ function plotRaw() {
             pieces: [
                 {
                     gte: 0,
-                    lte: query.cutoff,
+                    lte: results.search_results?.adjusted_cutoff ?? query.cutoff,
                     color: 'gray'
                 },
                 {
-                    gte: query.cutoff,
+                    gte: results.search_results?.adjusted_cutoff ?? query.cutoff,
                     color: 'blue'
                 }
             ]
@@ -249,10 +249,10 @@ function plotRaw() {
                 data: results.search_results?.raw,
                 markLine: {
                     symbol: "none",
+                    precision: 4,
                     data: [
                         {
                             symbol: "none",
-                            precision: 3,
                             label: {
                                 show: true,
                                 formatter: 'Similarity cutoff',
@@ -273,7 +273,6 @@ function plotRaw() {
     if (results.search_results?.adjusted_cutoff !== null) {
         option.series[0].markLine.data.push({
             symbol: "none",
-            precision: 3,
             label: {
                 show: true,
                 formatter: 'Adjusted cutoff',
