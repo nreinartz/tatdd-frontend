@@ -46,25 +46,43 @@
                                 </div>
                             </div>
                         </li>
-                        <li class="list-group-item">
-                            <div class="hstack flex-wrap justify-content-between align-items-center">
-                                <span class="fw-bold">
-                                    <i class="bi bi-scissors me-2"></i>
-                                    Cut-off similarity
-                                </span>
-                                <div class="hstack align-items-center gap-1">
-                                    <span class="badge bg-secondary pill-rounded text-truncate">
-                                        {{ resultsStore.results?.cutoff }}
+                        <template v-if="resultsStore.results?.type !== QueryType.CITATION_RECOMMENDATION">
+                            <li class="list-group-item">
+                                <div class="hstack flex-wrap justify-content-between align-items-center">
+                                    <span class="fw-bold">
+                                        <i class="bi bi-scissors me-2"></i>
+                                        Cut-off similarity
                                     </span>
-                                    <template v-if="resultsStore.searchResults?.adjusted_cutoff != null">
-                                        <i class="bi bi-arrow-right-short"></i>
-                                        <span class="badge bg-warning pill-rounded text-truncate">
-                                            {{ resultsStore.searchResults?.adjusted_cutoff }}
+                                    <div class="hstack align-items-center gap-1">
+                                        <span class="badge bg-secondary pill-rounded text-truncate">
+                                            {{ resultsStore.results?.cutoff }}
                                         </span>
-                                    </template>
+                                        <template v-if="resultsStore.searchResults?.adjusted_cutoff != null">
+                                            <i class="bi bi-arrow-right-short"></i>
+                                            <span class="badge bg-warning pill-rounded text-truncate">
+                                                {{ resultsStore.searchResults?.adjusted_cutoff }}
+                                            </span>
+                                        </template>
+                                    </div>
                                 </div>
-                            </div>
-                        </li>
+                            </li>
+                        </template>
+                        <template v-if="resultsStore.results?.type === QueryType.ALL
+                            || resultsStore.results?.type === QueryType.CITATION_RECOMMENDATION">
+                            <li class="list-group-item">
+                                <div class="hstack flex-wrap justify-content-between align-items-center">
+                                    <span class="fw-bold">
+                                        <i class="bi bi-scissors me-2"></i>
+                                        Min citation count
+                                    </span>
+                                    <div class="hstack align-items-center gap-1">
+                                        <span class="badge bg-secondary pill-rounded text-truncate">
+                                            {{ resultsStore.results?.min_citations }}
+                                        </span>
+                                    </div>
+                                </div>
+                            </li>
+                        </template>
                         <li class="list-group-item" v-if="resultsStore.results?.type != QueryType.CITATION_RECOMMENDATION">
                             <div class="hstack flex-wrap justify-content-between align-items-center gap-2">
                                 <span class="fw-bold">
