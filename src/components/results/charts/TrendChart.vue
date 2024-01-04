@@ -66,7 +66,7 @@ function plotTrends() {
         },
         grid: {
             containLabel: true,
-            left: "0%",
+            left: "1%",
             right: "1%",
             bottom: "15%",
             top: "20%"
@@ -189,7 +189,7 @@ function plotRaw() {
         },
         grid: {
             containLabel: true,
-            left: "0%",
+            left: "1%",
             right: "1%",
             bottom: "15%",
             top: "20%"

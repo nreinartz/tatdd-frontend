@@ -73,7 +73,7 @@ function plotDiscoveredTopics() {
             align: "left"
         },
         grid: {
-            left: '0%',
+            left: '1%',
             right: "1%",
             bottom: '0%',
             top: "120",
