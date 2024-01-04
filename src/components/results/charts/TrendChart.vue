@@ -157,7 +157,7 @@ function plotTrends() {
     };
 
     const chartDom = document.getElementById('trend-chart')!;
-    const myChart = echarts.init(chartDom);
+    const myChart = echarts.init(chartDom, null, { renderer: 'svg' });
 
     myChart.setOption(option);
     window.addEventListener('resize', () => myChart.resize());
@@ -284,10 +284,12 @@ function plotRaw() {
             },
             yAxis: results.search_results?.adjusted_cutoff ?? 0
         });
+
+        option.yAxis.min = Math.min(results.search_results?.adjusted_cutoff!, ...(results.search_results?.raw ?? [])) - 0.001;
     }
 
     const chartDom = document.getElementById('raw-chart')!;
-    const myChart = echarts.init(chartDom);
+    const myChart = echarts.init(chartDom, null, { renderer: 'svg' });
 
     myChart.setOption(option);
     window.addEventListener('resize', () => myChart.resize());

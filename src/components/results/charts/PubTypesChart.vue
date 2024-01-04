@@ -53,7 +53,7 @@ function plotPublicationTypes() {
     };
 
     const chartDom = document.getElementById('pub-chart')!;
-    const myChart = echarts.init(chartDom);
+    const myChart = echarts.init(chartDom, null, { renderer: 'svg' });
 
     myChart.setOption(option);
     window.addEventListener('resize', () => myChart.resize());

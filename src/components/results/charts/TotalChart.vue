@@ -98,7 +98,7 @@ function plotTotalPublications() {
     };
 
     const chartDom = document.getElementById('total-chart')!;
-    const myChart = echarts.init(chartDom);
+    const myChart = echarts.init(chartDom, null, { renderer: 'svg' });
 
     myChart.setOption(option);
     window.addEventListener('resize', () => myChart.resize());

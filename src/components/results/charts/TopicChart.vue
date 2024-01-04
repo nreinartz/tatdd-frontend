@@ -99,7 +99,7 @@ function plotDiscoveredTopics() {
     };
 
     const chartDom = document.getElementById('topic-chart')!;
-    const myChart = echarts.init(chartDom);
+    const myChart = echarts.init(chartDom, null, { renderer: 'svg' });
 
     myChart.setOption(option);
     window.addEventListener('resize', () => myChart.resize());
