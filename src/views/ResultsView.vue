@@ -54,7 +54,7 @@ async function fetchData() {
         initialLoading.value = false;
 
         if (!resultsStore.queryFinished) {
-            timeout = setTimeout(fetchData, 1000);
+            timeout = setTimeout(fetchData, 1500);
         }
     }
     catch (error) {
